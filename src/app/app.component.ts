@@ -29,10 +29,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onTodoCompleted(todoItem: TodoItem) {
-    const foundTodo = this.todoItems.find((ti) => ti.id === todoItem.id);
-
-    foundTodo.completed = true;
+  async onTodoCompleted(todoItem: TodoItem) {
+    await this.apiTodoService.updateTodo({
+      id: todoItem.id,
+      title: todoItem.title,
+      completed: true,
+    });
+    await this.loadTodos();
   }
 
   onTodoRemove(todoItem: TodoItem) {
