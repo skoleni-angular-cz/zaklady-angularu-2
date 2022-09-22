@@ -38,8 +38,9 @@ export class AppComponent implements OnInit {
     await this.loadTodos();
   }
 
-  onTodoRemove(todoItem: TodoItem) {
-    this.todoItems = this.todoItems.filter((ti) => ti.id !== todoItem.id);
+  async onTodoRemove(todoItem: TodoItem) {
+    await this.apiTodoService.deleteTodo(todoItem);
+    await this.loadTodos();
   }
 
   private async loadTodos() {
