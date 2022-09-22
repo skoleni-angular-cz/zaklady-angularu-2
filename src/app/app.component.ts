@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiTodoService } from './api-todo.service';
 import { TodoItem } from './todo.model';
 
 @Component({
@@ -16,6 +17,8 @@ export class AppComponent {
   ];
 
   currentTodoName: string = '';
+
+  constructor(private apiTodoService: ApiTodoService) {}
 
   onTodoNameChange(todoName: string) {
     this.currentTodoName = todoName;
