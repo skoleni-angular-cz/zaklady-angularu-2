@@ -15,20 +15,17 @@ export class AppComponent implements OnInit {
   constructor(private apiTodoService: ApiTodoService) {}
 
   async ngOnInit() {
-    this.todoItems = await this.apiTodoService.getAllTodos();
+    await this.loadTodos();
   }
 
   onTodoNameChange(todoName: string) {
     this.currentTodoName = todoName;
   }
 
-  onAddTodoButtonClick() {
+  async onAddTodoButtonClick() {
     if (this.currentTodoName !== '') {
-      this.todoItems.push({
-        id: Number(new Date()),
-        title: this.currentTodoName,
-        completed: false,
-      });
+      await this.apiTodoService.createTodo(this.currentTodoName, false);
+      await this.loadTodos();
     }
   }
 
@@ -40,5 +37,9 @@ export class AppComponent implements OnInit {
 
   onTodoRemove(todoItem: TodoItem) {
     this.todoItems = this.todoItems.filter((ti) => ti.id !== todoItem.id);
+  }
+
+  private async loadTodos() {
+    this.todoItems = await this.apiTodoService.getAllTodos();
   }
 }
