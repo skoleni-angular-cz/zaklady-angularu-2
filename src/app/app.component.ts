@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiTodoService } from './api-todo.service';
 import { TodoItem } from './todo.model';
 
@@ -7,18 +7,16 @@ import { TodoItem } from './todo.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  todoItems: TodoItem[] = [
-    {
-      id: 1,
-      title: 'Buy milk',
-      completed: false,
-    }
-  ];
+export class AppComponent implements OnInit {
+  todoItems: TodoItem[] = [];
 
   currentTodoName: string = '';
 
   constructor(private apiTodoService: ApiTodoService) {}
+
+  async ngOnInit() {
+    this.todoItems = await this.apiTodoService.getAllTodos();
+  }
 
   onTodoNameChange(todoName: string) {
     this.currentTodoName = todoName;
